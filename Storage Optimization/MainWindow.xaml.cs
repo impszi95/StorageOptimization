@@ -28,6 +28,7 @@ namespace StorageOptimization
     public partial class MainWindow : Window
     {
         private Shop shop;
+        private ObjectGenerator obj_generator;
         private Optimizer optimizer;
         private CancellationTokenSource cts;
         private int limit;
@@ -37,6 +38,7 @@ namespace StorageOptimization
             InitializeComponent();
 
             shop = Shop.GetInstance();
+            obj_generator = new ObjectGenerator();
             optimizer = new Optimizer();
             limit = 0;
             cts = new CancellationTokenSource();
@@ -48,14 +50,10 @@ namespace StorageOptimization
             int orders_number = (int)orders_slider.Value;
 
             CsvGenerator csv_generator = new CsvGenerator(items_number, orders_number);
-            ObjectGenerator obj_generator = new ObjectGenerator();
 
             csv_generator.GenerateOrdersFile();
-
             shop.Orders = obj_generator.CreateOrders(); // 1.Input Csv
-
             csv_generator.GenerateShipmentFile(shop.Orders);  //Send Sum to Factory
-
             shop.Shipment = obj_generator.CreateShipment();  // 2.Input Csv
 
             all_label.Content = shop.Orders.Sum(x => x.TotalItems);
@@ -68,7 +66,8 @@ namespace StorageOptimization
             
             if (checkBox_timeLimit.IsChecked == true)
             {
-                if (String.IsNullOrEmpty(textBox_timeLimit.Text))
+                bool time_limit_empty = String.IsNullOrEmpty(textBox_timeLimit.Text);
+                if (time_limit_empty)
                 {
                     MessageBox.Show("Missed time limit!");
                     return;
@@ -107,6 +106,14 @@ namespace StorageOptimization
             }
             cts.Cancel();
             sw.Reset();
+        }
+
+        private void Read_input_buttonClick_Click(object sender, RoutedEventArgs e)
+        {
+            shop.Orders = obj_generator.CreateOrders();
+            shop.Shipment = obj_generator.CreateShipment();
+
+            all_label.Content = shop.Orders.Sum(x => x.TotalItems);
         }
     }
 }

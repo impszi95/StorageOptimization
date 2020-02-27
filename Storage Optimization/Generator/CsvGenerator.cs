@@ -13,18 +13,20 @@ namespace StorageOptimization.Factories
         private int items_number;
         private int orders_number;
         private StringBuilder sb;
+        private char determiner;
 
         public CsvGenerator(int items_number, int orders_number)
         {
             this.items_number = items_number;
             this.orders_number = orders_number;
+            determiner = ',';
         }
 
         public void GenerateOrdersFile()
         {
             sb = new StringBuilder();
             Random rnd = new Random();
-            sb.AppendLine("OrderID;CustomerID;ItemName;Quantity");
+            sb.AppendLine("OrderId" + determiner + "CustomerId" + determiner + "ItemName" + determiner +"Quantity");
 
             for (int i = 1; i <= orders_number; i++)
             {
@@ -41,11 +43,11 @@ namespace StorageOptimization.Factories
                 {
                     var orderID = i;
                     sb.Append(orderID);
-                    sb.Append(";");
+                    sb.Append(determiner);
 
                     var customerID = i;
                     sb.Append(customerID);
-                    sb.Append(";");
+                    sb.Append(determiner);
 
                     int product_id = rnd.Next(1, items_number + 1); //Product duplikálás ne legyen orderen belül.
                     while (already_ordered_items.Contains(product_id))
@@ -56,7 +58,7 @@ namespace StorageOptimization.Factories
 
                     var itemName = "Product_" + product_id; //Nem biztosítom hogy, az öszes termékből lesz rendelés.
                     sb.Append(itemName);
-                    sb.Append(";");
+                    sb.Append(determiner);
 
                     var quantity = rnd.Next(1, 5);
                     sb.Append(quantity);
@@ -77,7 +79,7 @@ namespace StorageOptimization.Factories
 
             sb = new StringBuilder();
             Random rnd = new Random();
-            sb.AppendLine("ItemName;Quantity");
+            sb.AppendLine("ItemName"+determiner+"Quantity");
             
 
             int number_of_items = orders.SelectMany(x=>x.OrderItems.ToList()).GroupBy(y => y.ItemName).Count();
@@ -87,7 +89,7 @@ namespace StorageOptimization.Factories
             {
                 var itemName = orders_by_items[i].Key;
                 sb.Append(itemName);
-                sb.Append(";");
+                sb.Append(determiner);
 
                 int max_from_product = orders_by_items[i].Sum(x => x.Quantity); //Max annyit küldjön, amennyi rendelve lett (ne küldjön feleslegeset)
                 double factory_capacity = 0.5;

@@ -46,7 +46,7 @@ namespace StorageOptimization.Optimizers
         }
         virtual public void RemoveOrder(int orderID, List<Order> package, List<ShipmentItem> shipment)
         {
-            Order to_remove = package.Where(x => x.OrderID == orderID).FirstOrDefault();
+            Order to_remove = package.Where(x => x.OrderId == orderID).FirstOrDefault();
 
             foreach (OrderItem orderItem in to_remove.OrderItems)
             {

@@ -8,13 +8,13 @@ namespace StorageOptimization
 {
   public class OrderItem
     {
-        private int orderID;
-        private int customerID;
+        private int orderId;
+        private int customerId;
         private string itemName;
         private int quantity;
 
-        public int OrderID { get => orderID; set => orderID = value; }
-        public int CustomerID { get => customerID; set => customerID = value; }
+        public int OrderId { get => orderId; set => orderId = value; }
+        public int CustomerId { get => customerId; set => customerId = value; }
         public string ItemName { get => itemName; set => itemName = value; }
         public int Quantity { get => quantity; set => quantity = value; }
     }

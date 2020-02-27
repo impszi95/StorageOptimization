@@ -138,7 +138,7 @@ namespace StorageOptimization.Optimizers
                 if (rnd.NextDouble() < 0.1)
                 {
                     //Raktárba vissszarak
-                    RemoveOrder(order.OrderID, temp_pakolas, actual_pakolas_shipment);
+                    RemoveOrder(order.OrderId, temp_pakolas, actual_pakolas_shipment);
                 }
             }
             actual_pakolas = handler.CopyOrders(temp_pakolas);

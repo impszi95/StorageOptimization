@@ -47,7 +47,7 @@ namespace UnitTests
             csv_generator.GenerateOrdersFile();
 
             var orders = obj_generator.CreateOrders();
-            var order_by_id = orders.GroupBy(y => y.OrderID);
+            var order_by_id = orders.GroupBy(y => y.OrderId);
 
             foreach (var order in order_by_id)
             {

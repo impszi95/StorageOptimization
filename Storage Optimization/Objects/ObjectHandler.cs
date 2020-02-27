@@ -32,15 +32,15 @@ namespace StorageOptimization.Objects
             order.OrderItems.ForEach(
                 x => copied_orderItems.Add(new OrderItem()
                 {
-                    CustomerID = x.CustomerID,
+                    CustomerId = x.CustomerId,
                     ItemName = x.ItemName,
-                    OrderID = x.OrderID,
+                    OrderId = x.OrderId,
                     Quantity = x.Quantity
                 }));
 
             Order copied_order = new Order()
             {
-                OrderID = order.OrderID,
+                OrderId = order.OrderId,
                 OrderItems = copied_orderItems
             };
             return copied_order;

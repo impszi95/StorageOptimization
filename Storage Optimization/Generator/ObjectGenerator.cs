@@ -17,7 +17,7 @@ namespace StorageOptimization.Generator
         private List<OrderItem> CreateOrderItems()
         {
             CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture);
-            config.Delimiter = ";";
+            config.Delimiter = ",";
             using (var reader = new StreamReader("customer_orders.csv"))           
             using (var csv = new CsvReader(reader,config))
             {
@@ -28,10 +28,10 @@ namespace StorageOptimization.Generator
         public List<Order> CreateOrders()
         {
             List<Order> orders = new List<Order>();
-            var orderItems_by_id = CreateOrderItems().GroupBy(x => x.OrderID).ToList();
+            var orderItems_by_id = CreateOrderItems().GroupBy(x => x.OrderId).ToList();
             foreach (var order in orderItems_by_id)
             {
-                orders.Add(new Order(){ OrderID = order.Key, OrderItems = order.ToList() });
+                orders.Add(new Order(){ OrderId = order.Key, OrderItems = order.ToList() });
             }
             return orders;
         }
@@ -39,7 +39,7 @@ namespace StorageOptimization.Generator
         public List<ShipmentItem> CreateShipment()
         {            
             CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture);
-            config.Delimiter = ";";
+            config.Delimiter = ",";
             using (var reader = new StreamReader("factory_shipment.csv"))
             using (var csv = new CsvReader(reader, config))
             {
