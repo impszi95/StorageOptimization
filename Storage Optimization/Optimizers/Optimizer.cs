@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StorageOptimization.Optimizers
@@ -17,13 +18,13 @@ namespace StorageOptimization.Optimizers
             handler = new ObjectHandler();
         }
 
-        public List<Order> GetMonteCarlo(List<Order> orders, List<ShipmentItem> shipment)
+        public List<Order> GetMonteCarlo(List<Order> orders, List<ShipmentItem> shipment, CancellationToken token)
         {
             List<Order> input_orders = handler.CopyOrders(orders);
             List<ShipmentItem> orders_shipment = handler.CopyShipment(shipment);
 
             MonteCarlo mc = new MonteCarlo(input_orders, orders_shipment);
-            return mc.GetOpt();
+            return mc.GetOpt(token);
         }
 
         public List<Order> GetNonOpt(List<Order> orders, List<ShipmentItem> shipment)

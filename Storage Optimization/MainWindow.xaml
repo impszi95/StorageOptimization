@@ -27,6 +27,9 @@
         <Label x:Name="non_opt_label" Content="0" HorizontalAlignment="Left" Margin="467,444,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label x:Name="label3" Content="All items:" HorizontalAlignment="Left" Margin="21,334,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label x:Name="all_label" Content="0" HorizontalAlignment="Left" Margin="125,334,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <TextBox x:Name="textBox_timeLimit" HorizontalAlignment="Left" Height="23" Margin="494,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" FontSize="16"/>
+        <Label x:Name="label5" Content="sec" HorizontalAlignment="Left" Margin="554,308,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <CheckBox x:Name="checkBox_timeLimit" Content="Time Limit" HorizontalAlignment="Left" Margin="494,282,0,0" VerticalAlignment="Top" FontSize="16"/>
 
     </Grid>
 </Window>

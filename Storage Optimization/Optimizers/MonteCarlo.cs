@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StorageOptimization.Optimizers
@@ -64,10 +65,10 @@ namespace StorageOptimization.Optimizers
             slide_w_size = 50;
         }
 
-        public List<Order> GetOpt()
+        public List<Order> GetOpt(CancellationToken token)
         {            
             int i = 0;
-            while (!IsLanded())
+            while (!IsLanded() && !token.IsCancellationRequested)
             {
                 Shake();
 

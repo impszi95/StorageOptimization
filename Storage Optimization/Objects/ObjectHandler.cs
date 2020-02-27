@@ -54,7 +54,7 @@ namespace StorageOptimization.Objects
             {
                 n--;
                 int k = rnd.Next(n + 1);
-                Order value = list[k]; //?
+                Order value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }

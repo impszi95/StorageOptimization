@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using StorageOptimization.Factories;
@@ -66,6 +67,7 @@ namespace UnitTests
             CsvGenerator csv_generator = new CsvGenerator(items_number, orders_number);
             ObjectGenerator obj_generator = new ObjectGenerator();
             optimizer = new Optimizer();
+            CancellationTokenSource cts = new CancellationTokenSource();
 
             csv_generator.GenerateOrdersFile();
             var orders = obj_generator.CreateOrders();
@@ -78,7 +80,7 @@ namespace UnitTests
 
             for (int i = 1; i <= test_num; i++)
             {
-                var optimized_orders = optimizer.GetMonteCarlo(orders, shipment);
+                var optimized_orders = optimizer.GetMonteCarlo(orders, shipment, cts.Token);
                 var nonOpt_package = optimizer.GetNonOpt(orders, shipment);
 
                 var opt_num = optimized_orders.Sum(x => x.TotalItems);
@@ -96,6 +98,8 @@ namespace UnitTests
             CsvGenerator csv_generator = new CsvGenerator(items_number, orders_number);
             ObjectGenerator obj_generator = new ObjectGenerator();
             optimizer = new Optimizer();
+            CancellationTokenSource cts = new CancellationTokenSource();
+
 
             csv_generator.GenerateOrdersFile();
             var orders = obj_generator.CreateOrders();
@@ -108,7 +112,7 @@ namespace UnitTests
 
             for (int i = 1; i <= test_num; i++)
             {
-                var optimized_orders = optimizer.GetMonteCarlo(orders, shipment);
+                var optimized_orders = optimizer.GetMonteCarlo(orders, shipment,cts.Token);
                 var nonOpt_package = optimizer.GetNonOpt(orders, shipment);
 
                 var opt_num = optimized_orders.Sum(x => x.TotalItems);
