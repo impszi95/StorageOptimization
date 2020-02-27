@@ -13,11 +13,9 @@ namespace StorageOptimization.Objects
 
         private List<Order> orders;
         private List<ShipmentItem> shipment;
-        private Dictionary<string, int> storage;
 
         public List<Order> Orders { get => orders; set => orders = value; }
         public List<ShipmentItem> Shipment { get => shipment; set => shipment = value; }
-        public Dictionary<string, int> Storage { get => storage; set => storage = value; }
 
         private Shop()
         {

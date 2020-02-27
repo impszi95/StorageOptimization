@@ -85,16 +85,16 @@ namespace StorageOptimization.Factories
             int number_of_items = orders.SelectMany(x=>x.OrderItems.ToList()).GroupBy(y => y.ItemName).Count();
             var orders_by_items = orders.SelectMany(x=>x.OrderItems).ToList().GroupBy(x => x.ItemName).ToList();
 
-            for (int i = 0; i < number_of_items; i++) //Szeretném ha minden rendelt termékből küldene azért a gyár min.1-et.
+            for (int i = 0; i < number_of_items; i++) //I want the factory to send min. 1 piece from every item
             {
                 var itemName = orders_by_items[i].Key;
                 sb.Append(itemName);
                 sb.Append(determiner);
 
-                int max_from_product = orders_by_items[i].Sum(x => x.Quantity); //Max annyit küldjön, amennyi rendelve lett (ne küldjön feleslegeset)
+                int max_from_product = orders_by_items[i].Sum(x => x.Quantity); //Send max the amount that has been ordered (dont send extra ones)
                 double factory_capacity = 0.5;
                 int min_from_product = (int)Math.Floor(max_from_product * factory_capacity);
-                int quantity = rnd.Next(min_from_product, max_from_product + 1); //Itt állítható items/shipment 
+                int quantity = rnd.Next(min_from_product, max_from_product + 1); //Configure of items/shipment 
                 sb.Append(quantity);
 
                 sb.AppendLine();

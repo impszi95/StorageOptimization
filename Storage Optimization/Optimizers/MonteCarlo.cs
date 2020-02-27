@@ -15,11 +15,11 @@ namespace StorageOptimization.Optimizers
    
        private List<Order> all_best;
        private List<Order> actual_best;
-       private List<Order> actual_pakolas;
+       private List<Order> actual_package;
         
        private List<ShipmentItem> all_best_shipment;
        private List<ShipmentItem> actual_best_shipment;
-       private List<ShipmentItem> actual_pakolas_shipment;
+       private List<ShipmentItem> actual_package_shipment;
       
        private Random rnd;
        private ObjectHandler handler;
@@ -37,11 +37,11 @@ namespace StorageOptimization.Optimizers
 
             all_best = new List<Order>();
             actual_best = new List<Order>();
-            actual_pakolas = new List<Order>();
+            actual_package = new List<Order>();
 
             all_best_shipment = new List<ShipmentItem>();
             actual_best_shipment = new List<ShipmentItem>();
-            actual_pakolas_shipment = new List<ShipmentItem>();
+            actual_package_shipment = new List<ShipmentItem>();
 
             rnd = new Random();
             handler = new ObjectHandler();
@@ -56,11 +56,11 @@ namespace StorageOptimization.Optimizers
             Console.WriteLine("Moho: " + moho_opt.Sum(x => x.TotalItems));
             all_best = handler.CopyOrders(moho_opt);
             actual_best = handler.CopyOrders(moho_opt);
-            actual_pakolas = new List<Order>();
+            actual_package = new List<Order>();
 
             all_best_shipment = shipment;
             actual_best_shipment = shipment;
-            actual_pakolas_shipment = shipment;
+            actual_package_shipment = shipment;
 
             slide_w_size = 50;
         }
@@ -81,30 +81,30 @@ namespace StorageOptimization.Optimizers
 
         public void Shake()
         {
-            RandomOrderKiszed();
+            RandomPickOut();
 
             List<Order> temp_oders = handler.CopyOrders(orders);
             handler.Shuffle(temp_oders);
 
             foreach (Order order in temp_oders)
             {
-                if (CanDoneOrder(order, actual_pakolas_shipment))
+                if (CanDoneOrder(order, actual_package_shipment))
                 {
-                    DoneOrder(order,actual_pakolas,actual_pakolas_shipment);
+                    DoneOrder(order,actual_package,actual_package_shipment);
                 }
             }
             actual_best_db = actual_best.Sum(x => x.TotalItems);
-            int actual_pakolas_db = actual_pakolas.Sum(x => x.TotalItems);
+            int actual_pakolas_db = actual_package.Sum(x => x.TotalItems);
             if (actual_best_db <= actual_pakolas_db)
             {
                 actual_best_db = actual_pakolas_db;
-                actual_best = handler.CopyOrders(actual_pakolas);
-                actual_best_shipment = handler.CopyShipment(actual_pakolas_shipment);
+                actual_best = handler.CopyOrders(actual_package);
+                actual_best_shipment = handler.CopyShipment(actual_package_shipment);
             }
-            else //Visszalépés, visszaááll előző állapotra mert jobb
+            else //Previus state was better (stepback)
             {
-                actual_pakolas = handler.CopyOrders(actual_best);
-                actual_pakolas_shipment = handler.CopyShipment(actual_best_shipment);
+                actual_package = handler.CopyOrders(actual_best);
+                actual_package_shipment = handler.CopyShipment(actual_best_shipment);
             }
         }
 
@@ -128,20 +128,20 @@ namespace StorageOptimization.Optimizers
             return false;
         }
 
-        private void RandomOrderKiszed()
+        private void RandomPickOut()
         {
-            actual_pakolas = handler.CopyOrders(actual_best);
-            List<Order> temp_pakolas = handler.CopyOrders(actual_pakolas);
+            actual_package = handler.CopyOrders(actual_best);
+            List<Order> temp_package = handler.CopyOrders(actual_package);
 
-            foreach (Order order in actual_pakolas)
+            foreach (Order order in actual_package)
             {                 
                 if (rnd.NextDouble() < 0.1)
                 {
-                    //Raktárba vissszarak
-                    RemoveOrder(order.OrderId, temp_pakolas, actual_pakolas_shipment);
+                    //Put back to storage
+                    RemoveOrder(order.OrderId, temp_package, actual_package_shipment);
                 }
             }
-            actual_pakolas = handler.CopyOrders(temp_pakolas);
+            actual_package = handler.CopyOrders(temp_package);
         }
     }
 }

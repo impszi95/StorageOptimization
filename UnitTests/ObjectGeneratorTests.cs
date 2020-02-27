@@ -29,7 +29,7 @@ namespace UnitTests
             csv_generator.GenerateOrdersFile();
 
             var orders = obj_generator.CreateOrders(); 
-            var orderId_num = orders.SelectMany(x => x.OrderItems).GroupBy(y => y.OrderID).Count();
+            var orderId_num = orders.SelectMany(x => x.OrderItems).GroupBy(y => y.OrderId).Count();
 
             Assert.That(orderId_num == orders_number);
         }
@@ -118,7 +118,7 @@ namespace UnitTests
                 var opt_num = optimized_orders.Sum(x => x.TotalItems);
                 var nonOpt_num = nonOpt_package.Sum(x => x.TotalItems);
 
-                Assert.That(opt_num >= nonOpt_num);
+                Assert.That(opt_num > nonOpt_num);
             }
         }
     }

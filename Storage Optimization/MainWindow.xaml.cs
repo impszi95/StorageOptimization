@@ -112,7 +112,6 @@ namespace StorageOptimization
         {
             shop.Orders = obj_generator.CreateOrders();
             shop.Shipment = obj_generator.CreateShipment();
-
             all_label.Content = shop.Orders.Sum(x => x.TotalItems);
         }
     }
